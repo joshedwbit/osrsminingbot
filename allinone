@@ -1,0 +1,165 @@
+import pyautogui as pag
+import random
+import pause
+import sys
+import datetime
+from PIL import ImageGrab
+from PIL import Image
+
+tweentype=lambda:random.choice([pag.easeInQuad,pag.easeOutQuad,pag.easeInOutQuad,pag.easeInBounce,pag.easeInElastic,pag.easeInQuint,pag.easeInSine,pag.easeOutBack,pag.easeOutCirc,pag.easeOutExpo])
+
+def dropAll():
+    pag.keyDown("shift")   
+    #Row 1
+    #pag.click(random.randint(1252,1255),random.randint(375,377),duration=random.uniform(1,2),tween=tweentype())
+    pag.click(random.randint(1310,1314),random.randint(375,377),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1377,1380),random.randint(375,377),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1444,1448),random.randint(375,377),duration=random.uniform(0.3,0.5),tween=tweentype())
+    #Row 2
+    pag.click(random.randint(1255,1259),random.randint(430,433),duration=random.uniform(0.5,0.7),tween=tweentype())
+    pag.click(random.randint(1311,1315),random.randint(430,433),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1380,1384),random.randint(430,433),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1439,1441),random.randint(430,433),duration=random.uniform(0.3,0.5),tween=tweentype())
+    #Row 3
+    pag.click(random.randint(1249,1252),random.randint(492,494),duration=random.uniform(0.5,0.7),tween=tweentype())
+    pag.click(random.randint(1316,1318),random.randint(492,494),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1376,1379),random.randint(492,494),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1440,1442),random.randint(492,494),duration=random.uniform(0.3,0.5),tween=tweentype())
+    #Row 4
+    pag.click(random.randint(1249,1251),random.randint(543,545),duration=random.uniform(0.5,0.7),tween=tweentype())
+    pag.click(random.randint(1318,1320),random.randint(543,545),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1380,1382),random.randint(543,545),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1439,1441),random.randint(543,545),duration=random.uniform(0.3,0.5),tween=tweentype())
+    #Row 5
+    pag.click(random.randint(1254,1258),random.randint(588,590),duration=random.uniform(0.5,0.7),tween=tweentype())
+    pag.click(random.randint(1309,1312),random.randint(588,590),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1380,1384),random.randint(588,590),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1438,1440),random.randint(588,590),duration=random.uniform(0.3,0.5),tween=tweentype())
+    #Row 6
+    pag.click(random.randint(1250,1253),random.randint(647,649),duration=random.uniform(0.5,0.7),tween=tweentype())
+    pag.click(random.randint(1310,1313),random.randint(647,649),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1370,1372),random.randint(647,649),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1438,1440),random.randint(647,649),duration=random.uniform(0.3,0.5),tween=tweentype())
+    #Row 7
+    pag.click(random.randint(1252,1256),random.randint(700,704),duration=random.uniform(0.5,0.7),tween=tweentype())
+    pag.click(random.randint(1306,1309),random.randint(700,704),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1372,1375),random.randint(700,704),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.click(random.randint(1440,1443),random.randint(700,704),duration=random.uniform(0.3,0.5),tween=tweentype())
+    pag.keyUp('shift')
+
+    return 1
+
+def screenGrab(bbox=None):
+    return ImageGrab.grab(bbox)
+
+def checkCopperOre(direction):
+    s=screenGrab()                                      #screenshot of screen
+    if direction.lower() == 'd':                        
+        pixels=[(775,212),(661,280),(763,383)]          #if direction input is equal to d, then obtain
+                                                        #some pixels =pixels from 3 rocks!
+
+    for pixel in pixels:
+        xvec=s.getpixel(pixel) 
+        #print(xvec)                               #for each set of pixels
+        if xvec[2] <95:
+        #if s.getpixel(pixel) != (152,142,141):            #selects a pixel from the screengrab
+            print('Ore Not Avaliable')                  #compares it to existing pixel of same colour
+            continue
+        else:
+            print(f'{datetime.datetime.now().time():%H-%M-%S} Ore Available') #if available, prints
+                                                                              #exact time hour minute second
+            return pixel #returns the pixel where ore is available
+
+    return 0     #return false
+
+
+def checkFullInventory():
+    s=screenGrab()
+
+    if s.getpixel((1427,701)) == (96,78,55):                                   #compare pixel to another
+        print(f'{datetime.datetime.now().time():%H:%M:%S} Inventory Full')     #determine whether inv full
+        return 1
+    else:
+        print(f'{datetime.datetime.now().time():%H:%M:%S} Inventory Not Full')
+        return 0
+
+    #if inv full returns true, if not returns false
+
+
+def checkCopperMineSuccess():
+    s=screenGrab(bbox=(397,701,652,721))  #takes a screenshot of specific region of screen, had to change
+                                          #rather than x,y,width,height it wanted 4 coordinates 
+    sucMsg=Image.open(r'C:\Users\joshi\Desktop\Coding programmes\VSCODE\OSRSbots\tinsuccess.png')
+    #open 'you manage to mine some copper' file
+    pairs = zip(sucMsg.getdata(),s.getdata())
+    #getdata returns the contents of this image as a sequence object containing pixel values
+
+    dif = sum(abs(c1-c2) for p1,p2 in pairs for c1,c2 in zip(p1,p2))
+
+    if dif == 0:
+        print(f'{datetime.datetime.now().time():%H:%M:%S} Mining Finished') 
+        #if screenshot matches success image, print time.
+        return 1
+    else:
+        print('Mining Not Finished')
+        #screenshot does not match success image.
+        return 0
+
+def mineCopperBot():
+    orig_stdout = sys.stdout
+    f = open(r'C:\Users\joshi\Desktop\Coding programmes\VSCODE\OSRSbots\OsrsBotOutput','w')
+    sys.stdout = f
+    
+    print(f'{datetime.datetime.now():%Y-%m-%d}')
+
+    #control settings
+    pag.click(1227,55,duration=0.5,tween=tweentype())
+    pag.click(1403,753,duration=0.2,tween=tweentype())
+    pag.click(1406,457,duration=0.2,tween=tweentype())
+    pag.keyDown('up')
+    pause.seconds(2)
+    pag.keyUp('up')
+    pag.click(1347,316,duration=0.2,tween=tweentype())
+    j=0
+    IS=checkFullInventory()
+
+
+    for _ in range(10):
+        IS=checkFullInventory()
+    
+        while IS==0:  #inventory not full
+            oA=checkCopperOre('d') 
+        
+            while oA==0:  #ore available (continues until ore is available)
+                pause.seconds(0.1)
+                oA=checkCopperOre('d')
+            print(f'{datetime.datetime.now().time():%H-%M-%S} Mining...')
+        
+            pag.moveTo(oA[0],oA[1],0.2,tween=tweentype())
+            pag.click()      #moves to pixel where ore is and starts mining
+                                            
+            pause.seconds(1.5)
+    
+            mS=checkCopperMineSuccess()
+            #now you want it to wait for mining to be finished
+            while mS==0:
+                pause.seconds(0.5)
+                mS=checkCopperMineSuccess()
+                continue
+        
+
+    
+            IS=checkFullInventory()
+            print(f'{datetime.datetime.now().time():%H-%M-%S} Checking Ore...')  #while idle, checks for new ore
+    
+        j+=1
+        print('iteration=',j)
+        dropAll() #drops inv once inv full 
+        pause.seconds(1)
+    
+    sys.stdout = orig_stdout
+    f.close()
+
+    return 1
+
+mineCopperBot()
