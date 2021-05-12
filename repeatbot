@@ -1,0 +1,68 @@
+def mineCopperBot():
+    #Location=West of lumbridge swamp, inbetween 3 rocks
+    import pause
+    import pyautogui as  pag 
+    import sys
+    import datetime
+    from checkinv6 import checkFullInventory
+    from CheckCopper5 import checkCopperOre
+    from checksuccess8 import checkCopperMineSuccess
+    from emptyinv1 import dropAll
+    from Tweeningrand05 import tweentype
+
+    orig_stdout = sys.stdout
+    f = open(r'C:\Users\joshi\Desktop\Coding programmes\VSCODE\OSRSbots\OsrsBotOutput','w')
+    sys.stdout = f
+    
+    print(f'{datetime.datetime.now():%Y-%m-%d}')
+
+    #control settings
+    pag.click(1227,55,duration=0.5,tween=tweentype())
+    pag.click(1403,753,duration=0.2,tween=tweentype())
+    pag.click(1406,457,duration=0.2,tween=tweentype())
+    pag.keyDown('up')
+    pause.seconds(2)
+    pag.keyUp('up')
+    pag.click(1347,316,duration=0.2,tween=tweentype())
+    j=0
+    IS=checkFullInventory()
+
+
+    for _ in range(10):
+        IS=checkFullInventory()
+    
+        while IS==0:  #inventory not full
+            oA=checkCopperOre('d') 
+        
+            while oA==0:  #ore available (continues until ore is available)
+                pause.seconds(0.1)
+                oA=checkCopperOre('d')
+            print(f'{datetime.datetime.now().time():%H-%M-%S} Mining...')
+        
+            pag.moveTo(oA[0],oA[1],0.2,tween=tweentype())
+            pag.click()      #moves to pixel where ore is and starts mining
+                                            
+            pause.seconds(1.5)
+    
+            mS=checkCopperMineSuccess()
+            #now you want it to wait for mining to be finished
+            while mS==0:
+                pause.seconds(0.5)
+                mS=checkCopperMineSuccess()
+                continue
+        
+
+    
+            IS=checkFullInventory()
+            print(f'{datetime.datetime.now().time():%H-%M-%S} Checking Ore...')  #while idle, checks for new ore
+    
+        j+=1
+        print('iteration=',j)
+        dropAll() #drops inv once inv full 
+        pause.seconds(1)
+    
+    sys.stdout = orig_stdout
+    f.close()
+
+    return 1
+mineCopperBot()
