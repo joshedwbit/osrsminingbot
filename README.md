@@ -1,5 +1,5 @@
 # osrsminingbot
 
-Python- A bot to mine copper ore on popular MMORPG old school runescape.
+A bot to mine copper ore on popular MMORPG old school runescape.
 
 See 'allinone'
